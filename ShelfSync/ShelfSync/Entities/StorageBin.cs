@@ -22,9 +22,6 @@ public class StorageBin
     public User CreatedByUser { get; set; }
 
     public DateTime ModifiedAt { get; set; }
-    public int ModifiedBy { get; set; }
-    [ForeignKey("ModifiedBy")]
-    public User ModifiedByUser { get; set; }
 
 
 }

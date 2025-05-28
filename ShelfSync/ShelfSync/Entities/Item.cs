@@ -9,7 +9,6 @@ public class Item
     public required string Name { get; set; }
     public required int Quantity { get; set; }
 
-    // Foreign key to StorageBin
     public required int StorageBinId { get; set; }
     [ForeignKey("StorageBinId")]
     public StorageBin StorageBin { get; set; }
