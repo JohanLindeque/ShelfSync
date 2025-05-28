@@ -1,0 +1,15 @@
+services:
+  sql:
+    image: postgres:latest
+    container_name: shelf-sync-db
+    environment:
+      - POSTGRES_USER=keeper
+      - POSTGRES_PASSWORD=P@ssw0rd
+    ports:
+      - 5434:5434
+    volumes:
+      - dbdata:/var/opt/postgres
+
+volumes:
+  dbdata:
+    name: postgres-data
