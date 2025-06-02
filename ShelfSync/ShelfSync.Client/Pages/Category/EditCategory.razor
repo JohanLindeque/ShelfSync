@@ -1,0 +1,32 @@
+﻿@page "/editcategory"
+@page "/editcategory/{id:int}"
+
+@inject ICategoryService CategoryService
+
+
+
+<h3>Create Category</h3>
+
+<EditForm FormName="editCategory" Model="category" OnSubmit="HandleSubmit">
+    <div>
+        <label>Name</label>
+        <InputText @bind-Value="category.Name">@category.Name</InputText>
+
+        <label>Description</label>
+        <InputText @bind-Value="category.Description">@category.Description</InputText>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id {get; set;}
+    [SupplyParameterFromForm]
+    Category category {get; set;} = new Category { Name = string.Empty, Description = string.Empty };
+
+    async Task HandleSubmit(){
+        await CategoryService.AddCategory(category);
+    }
+}

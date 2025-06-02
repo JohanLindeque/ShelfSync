@@ -1,40 +1,61 @@
 ﻿@page "/categories"
+
 @attribute [StreamRendering(true)]
+@rendermode RenderMode.InteractiveAuto
+
 @inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
 
 
 <h3>CategoriesList</h3>
 
 
-@if(categories == null)
+@if (categories == null)
 {
     <span>Loading...</span>
 }
-else if (categories.Count == 0){
+else if (categories.Count == 0)
+{
     <span>No Categories Found.</span>
 }
-else {
+else
+{
     <ul>
         @foreach (var category in categories)
         {
-            <li>
+            <div class="card" style="width: 18rem; ">
+                <div class="card-body">
+                    <h5 class="card-title">@category.Name</h5>
+                    <p class="card-text">@category.Description</p>
+                     <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-danger">Update</button>
+                </div>
+            </div>
+
+            @* <li>
                 <h4>@category.Name</h4>
                 <p>@category.Description</p>
-                <button>Edit</button>
-            </li>
+                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-danger">Update</button>
+            </li> *@
         }
     </ul>
 }
+
+<button @onclick="CreateCategory" class="btn btn-success">Create Category</button>
+
+
 
 @code {
     List<Category>? categories = null;
 
     protected override async Task OnInitializedAsync()
     {
-        categories =  await CategoryService.GetAllCategories();
+        categories = await CategoryService.GetAllCategories();
     }
 
-
+    void CreateCategory()
+    {
+        NavigationManager.NavigateTo("/editcategory");
+    }
 }
-
-

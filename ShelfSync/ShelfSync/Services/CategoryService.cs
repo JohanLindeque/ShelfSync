@@ -20,4 +20,16 @@ public class CategoryService : ICategoryService
         var categories = await _context.Categories.ToListAsync();
         return categories;
     }
+
+    public async Task<Category> AddCategory(Category category)
+    {
+        _context.Categories.Add(category);
+        await _context.SaveChangesAsync();
+
+        return category;
+    }
+
+
+
+
 }
