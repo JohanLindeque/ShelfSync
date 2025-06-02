@@ -1,0 +1,40 @@
+﻿@page "/categories"
+@attribute [StreamRendering(true)]
+@inject ICategoryService CategoryService
+
+
+<h3>CategoriesList</h3>
+
+
+@if(categories == null)
+{
+    <span>Loading...</span>
+}
+else if (categories.Count == 0){
+    <span>No Categories Found.</span>
+}
+else {
+    <ul>
+        @foreach (var category in categories)
+        {
+            <li>
+                <h4>@category.Name</h4>
+                <p>@category.Description</p>
+                <button>Edit</button>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    List<Category>? categories = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories =  await CategoryService.GetAllCategories();
+    }
+
+
+}
+
+
