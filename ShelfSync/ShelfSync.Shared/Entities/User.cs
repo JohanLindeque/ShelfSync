@@ -1,6 +1,6 @@
 using System;
 
-namespace ShelfSync.Entities;
+namespace ShelfSync.Shared.Entities;
 
 public class User
 {

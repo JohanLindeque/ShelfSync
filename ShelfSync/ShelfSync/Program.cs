@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ShelfSync.Client.Pages;
 using ShelfSync.Components;
 using ShelfSync.Data;
-using ShelfSync.Services;
-using ShelfSync.Services.Interfaces;
+using ShelfSync.Shared.Services;
+using ShelfSync.Shared.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

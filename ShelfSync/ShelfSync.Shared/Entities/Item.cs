@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ShelfSync.Entities;
+namespace ShelfSync.Shared.Entities;
 
 public class Item
 {

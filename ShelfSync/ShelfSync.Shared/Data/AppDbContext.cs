@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using ShelfSync.Entities;
+using ShelfSync.Shared.Entities;
 
 namespace ShelfSync.Data;
 

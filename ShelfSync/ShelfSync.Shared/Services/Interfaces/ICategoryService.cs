@@ -1,7 +1,7 @@
 using System;
-using ShelfSync.Entities;
+using ShelfSync.Shared.Entities;
 
-namespace ShelfSync.Services.Interfaces;
+namespace ShelfSync.Shared.Services.Interfaces;
 
 public interface ICategoryService
 {

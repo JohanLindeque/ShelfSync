@@ -1,10 +1,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using ShelfSync.Data;
-using ShelfSync.Entities;
-using ShelfSync.Services.Interfaces;
+using ShelfSync.Shared.Entities;
+using ShelfSync.Shared.Services.Interfaces;
 
-namespace ShelfSync.Services;
+namespace ShelfSync.Shared.Services;
 
 public class CategoryService : ICategoryService
 {

@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfSync", "ShelfSync\Shel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfSync.Client", "ShelfSync\ShelfSync.Client\ShelfSync.Client.csproj", "{1738F829-B4D6-418B-B387-18B6F9F33A2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShelfSync.Shared", "ShelfSync\ShelfSync.Shared\ShelfSync.Shared.csproj", "{9F6B28B3-ECA2-40F5-89E8-0D5724204812}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,18 @@ Global
 		{1738F829-B4D6-418B-B387-18B6F9F33A2C}.Release|x64.Build.0 = Release|Any CPU
 		{1738F829-B4D6-418B-B387-18B6F9F33A2C}.Release|x86.ActiveCfg = Release|Any CPU
 		{1738F829-B4D6-418B-B387-18B6F9F33A2C}.Release|x86.Build.0 = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Debug|x86.Build.0 = Debug|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|x64.Build.0 = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1C9084B9-605D-4DF8-B3AA-A3C9CF6AD866} = {75C8D4ED-7F48-7204-EDA7-F5B84A1944F0}
 		{1738F829-B4D6-418B-B387-18B6F9F33A2C} = {75C8D4ED-7F48-7204-EDA7-F5B84A1944F0}
+		{9F6B28B3-ECA2-40F5-89E8-0D5724204812} = {75C8D4ED-7F48-7204-EDA7-F5B84A1944F0}
 	EndGlobalSection
 EndGlobal
