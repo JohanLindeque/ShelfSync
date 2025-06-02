@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ShelfSync.Client.Pages;
 using ShelfSync.Components;
 using ShelfSync.Data;
+using ShelfSync.Services;
+using ShelfSync.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+
 
 var app = builder.Build();
 
