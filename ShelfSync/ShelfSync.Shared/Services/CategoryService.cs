@@ -29,7 +29,8 @@ public class CategoryService : ICategoryService
         return category;
     }
 
-
-
-
+    public async Task<Category> GetCategoryById(int Id)
+    {
+        return await _context.Categories.FindAsync(Id);
+    }
 }

@@ -6,5 +6,6 @@ namespace ShelfSync.Shared.Services.Interfaces;
 public interface ICategoryService
 {
     Task<List<Category>> GetAllCategories();
+    Task<Category> GetCategoryById(int Id);
     Task<Category> AddCategory(Category category);
 }

@@ -1,7 +1,7 @@
 ﻿@page "/categories"
 
-@attribute [StreamRendering(true)]
-@rendermode RenderMode.InteractiveAuto
+
+@rendermode RenderMode.InteractiveServer
 
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
@@ -27,8 +27,8 @@ else
                 <div class="card-body">
                     <h5 class="card-title">@category.Name</h5>
                     <p class="card-text">@category.Description</p>
-                     <button class="btn btn-primary">Edit</button>
-                <button class="btn btn-danger">Update</button>
+                    <EditCategoryButton id="@category.Id" />
+                    <button class="btn btn-danger">Update</button>
                 </div>
             </div>
 
@@ -58,4 +58,7 @@ else
     {
         NavigationManager.NavigateTo("/editcategory");
     }
+
+
 }
+

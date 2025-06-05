@@ -2,12 +2,20 @@
 @page "/editcategory/{id:int}"
 
 @inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
 
+@rendermode RenderMode.InteractiveAuto
 
+@if (Id == null)
+{
+    <h3>Create Category</h3>
+}
+else
+{
+    <h3>Edit @category.Name</h3>
+}
 
-<h3>Create Category</h3>
-
-<EditForm FormName="editCategory" Model="category" OnSubmit="HandleSubmit">
+<EditForm FormName="editCategory" Model="category" OnSubmit="HandleUpdateCategory">
     <div>
         <label>Name</label>
         <InputText @bind-Value="category.Name">@category.Name</InputText>
@@ -22,11 +30,29 @@
 
 @code {
     [Parameter]
-    public int? Id {get; set;}
+    public int? Id { get; set; }
     [SupplyParameterFromForm]
-    Category category {get; set;} = new Category { Name = string.Empty, Description = string.Empty };
+    Category category { get; set; } = new Category { Name = string.Empty, Description = string.Empty };
 
-    async Task HandleSubmit(){
-        await CategoryService.AddCategory(category);
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id.HasValue)
+        {
+            var existingCategory = await CategoryService.GetCategoryById(Id.Value);
+            if (existingCategory != null)
+                category = existingCategory;
+        }
+        else{
+            NavigationManager.NavigateTo("/categories");
+        }
+    }
+
+
+    async Task HandleUpdateCategory()
+    {
+        @* await CategoryService.AddCategory(category); *@
+
+        @* NavigationManager.NavigateTo("/categories"); *@
+
     }
 }
