@@ -21,9 +21,10 @@ public class ClientCategoryService : ICategoryService
         return await result.Content.ReadFromJsonAsync<Category>();
     }
 
-    public Task<List<Category>> GetAllCategories()
+    public async Task<List<Category>> GetAllCategories()
     {
-        throw new NotImplementedException();
+        var result = await _httpClient.GetFromJsonAsync<List<Category>>($"api/category/get");
+        return result;
     }
 
     public async Task<Category> GetCategoryById(int id)

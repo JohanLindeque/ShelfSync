@@ -18,20 +18,56 @@ namespace ShelfSync.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("{id}")]
         [Route("get")]
+        public async Task<ActionResult<List<Category>>> GetAllCategories()
+        {
+            try
+            {
+                var categories = await _categoryService.GetAllCategories();
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Category>> GetCategoryById(int id)
         {
-            var category = await _categoryService.GetCategoryById(id);
-            return new ObjectResult(category) { StatusCode = StatusCodes.Status200OK };
+            try
+            {
+                var category = await _categoryService.GetCategoryById(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPost]
         [Route("add")]
         public async Task<ActionResult<Category>> AddCategory(Category category)
         {
-            var addedCategory = await _categoryService.AddCategory(category);
-            return new ObjectResult(addedCategory) { StatusCode = StatusCodes.Status200OK };
+            try
+            {
+                if (category == null)
+                {
+                    return BadRequest("Category cannot be null");
+                }
+
+                var addedCategory = await _categoryService.AddCategory(category);
+                return CreatedAtAction(nameof(GetCategoryById), new { id = addedCategory.Id }, addedCategory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
     }
