@@ -15,7 +15,7 @@ else
     <h3>Edit @category.Name</h3>
 }
 
-<EditForm FormName="editCategory" Model="category" OnSubmit="HandleUpdateCategory">
+<EditForm FormName="editCategory" Model="category" OnSubmit="HandleSubmit">
     <div>
         <label>Name</label>
         <InputText @bind-Value="category.Name">@category.Name</InputText>
@@ -42,17 +42,15 @@ else
             if (existingCategory != null)
                 category = existingCategory;
         }
-        else{
-            NavigationManager.NavigateTo("/categories");
-        }
+      
     }
 
 
-    async Task HandleUpdateCategory()
+    async Task HandleSubmit()
     {
-        @* await CategoryService.AddCategory(category); *@
+        await CategoryService.AddCategory(category);
 
-        @* NavigationManager.NavigateTo("/categories"); *@
+        NavigationManager.NavigateTo("/categories");
 
     }
 }

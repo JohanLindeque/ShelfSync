@@ -1,0 +1,23 @@
+﻿@rendermode RenderMode.InteractiveAuto
+@inject NavigationManager NavigationManager
+@inject ICategoryService CategoryService
+
+
+<button @onclick="DeleteCategory" class="btn btn-danger">Delete</button>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+      [Parameter]
+    public EventCallback OnCategoryDeleted { get; set; }
+    
+    async Task DeleteCategory()
+    {
+        await CategoryService.DeleteCategoryById(Id);
+        await OnCategoryDeleted.InvokeAsync();
+
+        NavigationManager.NavigateTo("/categories");
+
+    }
+}

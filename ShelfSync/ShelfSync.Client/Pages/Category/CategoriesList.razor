@@ -28,16 +28,10 @@ else
                     <h5 class="card-title">@category.Name</h5>
                     <p class="card-text">@category.Description</p>
                     <EditCategoryButton id="@category.Id" />
-                    <button class="btn btn-danger">Update</button>
+                    <DeleteCategoryButton id="@category.Id" />
+                    @* <button class="btn btn-danger">Update</button> *@
                 </div>
             </div>
-
-            @* <li>
-                <h4>@category.Name</h4>
-                <p>@category.Description</p>
-                <button class="btn btn-primary">Edit</button>
-                <button class="btn btn-danger">Update</button>
-            </li> *@
         }
     </ul>
 }
