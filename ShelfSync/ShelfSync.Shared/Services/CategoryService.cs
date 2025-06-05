@@ -33,4 +33,17 @@ public class CategoryService : ICategoryService
     {
         return await _context.Categories.FindAsync(Id);
     }
+
+    public async Task<bool> DeleteCategoryById(int id)
+    {
+        var category = await _context.Categories.FindAsync(id);
+        if (category == null)
+        {
+            return false; 
+        }
+
+        _context.Categories.Remove(category);
+        await _context.SaveChangesAsync();
+        return true; 
+    }
 }

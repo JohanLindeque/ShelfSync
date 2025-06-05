@@ -14,16 +14,9 @@ public class ClientCategoryService : ICategoryService
         _httpClient = httpClient;
     }
 
-
-    public async Task<Category> AddCategory(Category category)
-    {
-        var result = await _httpClient.PostAsJsonAsync<Category>("api/category/add", category);
-        return await result.Content.ReadFromJsonAsync<Category>();
-    }
-
     public async Task<List<Category>> GetAllCategories()
     {
-        var result = await _httpClient.GetFromJsonAsync<List<Category>>($"api/category/get");
+        var result = await _httpClient.GetFromJsonAsync<List<Category>>($"api/category/all");
         return result;
     }
 
@@ -32,4 +25,30 @@ public class ClientCategoryService : ICategoryService
         var result = await _httpClient.GetFromJsonAsync<Category>($"api/category/{id}");
         return result;
     }
+
+
+    public async Task<Category> AddCategory(Category category)
+    {
+        var result = await _httpClient.PostAsJsonAsync("api/category", category);
+        result.EnsureSuccessStatusCode();
+        return await result.Content.ReadFromJsonAsync<Category>() ?? category;
+    }
+
+
+    public async Task<bool> DeleteCategoryById(int id)
+    {
+        try
+        {
+            var result = await _httpClient.DeleteAsync($"api/category/{id}");
+            return result.IsSuccessStatusCode;
+        }
+        catch (HttpRequestException)
+        {
+            return false;
+        }
+    }
+
+    
+
+    
 }

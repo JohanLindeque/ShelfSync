@@ -18,7 +18,7 @@ namespace ShelfSync.Controllers
             _categoryService = categoryService;
         }
 
-        [Route("get")]
+        [Route("all")]
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
             try
@@ -63,6 +63,24 @@ namespace ShelfSync.Controllers
 
                 var addedCategory = await _categoryService.AddCategory(category);
                 return CreatedAtAction(nameof(GetCategoryById), new { id = addedCategory.Id }, addedCategory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+         [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteCategoryById(int id)
+        {
+            try
+            {
+                var wasDeleted = await _categoryService.DeleteCategoryById(id);
+                if (!wasDeleted)
+                {
+                    return NotFound($"Category with ID {id} not found");
+                }
+                return NoContent();
             }
             catch (Exception ex)
             {

@@ -7,5 +7,6 @@ public interface ICategoryService
 {
     Task<List<Category>> GetAllCategories();
     Task<Category> GetCategoryById(int Id);
+    Task<bool> DeleteCategoryById(int Id);
     Task<Category> AddCategory(Category category);
 }
