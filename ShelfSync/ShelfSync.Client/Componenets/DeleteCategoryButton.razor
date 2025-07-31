@@ -13,11 +13,22 @@
     public EventCallback OnCategoryDeleted { get; set; }
     
     async Task DeleteCategory()
+{
+    try
     {
-        await CategoryService.DeleteCategoryById(Id);
-        await OnCategoryDeleted.InvokeAsync();
-
-        NavigationManager.NavigateTo("/categories");
-
+        var success = await CategoryService.DeleteCategoryById(Id);
+        if (success)
+        {
+            await OnCategoryDeleted.InvokeAsync();
+        }
+        else
+        {
+            Console.WriteLine("Failed to delete category");
+        }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error deleting category: {ex.Message}");
+    }
+}
 }

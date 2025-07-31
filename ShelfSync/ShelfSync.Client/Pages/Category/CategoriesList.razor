@@ -28,8 +28,7 @@ else
                     <h5 class="card-title">@category.Name</h5>
                     <p class="card-text">@category.Description</p>
                     <EditCategoryButton id="@category.Id" />
-                    <DeleteCategoryButton id="@category.Id" />
-                    @* <button class="btn btn-danger">Update</button> *@
+                    <DeleteCategoryButton Id="@category.Id" OnCategoryDeleted="HandleCategoryDeleted" />
                 </div>
             </div>
         }
@@ -38,21 +37,27 @@ else
 
 <button @onclick="CreateCategory" class="btn btn-success">Create Category</button>
 
-
-
 @code {
     List<Category>? categories = null;
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
         categories = await CategoryService.GetAllCategories();
+    }
+
+    private async Task HandleCategoryDeleted()
+    {
+        await LoadCategories(); // Refresh the categories list
+        StateHasChanged(); // Force UI update
     }
 
     void CreateCategory()
     {
         NavigationManager.NavigateTo("/editcategory");
     }
-
-
 }
-
