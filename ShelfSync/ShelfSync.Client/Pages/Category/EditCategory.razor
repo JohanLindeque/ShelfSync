@@ -47,10 +47,32 @@ else
 
 
     async Task HandleSubmit()
+{
+    try
     {
-        await CategoryService.AddCategory(category);
+        if (Id.HasValue)
+        {
+            // Editing existing category
+            category.Id = Id.Value; // Ensure ID is set
+            await CategoryService.UpdateCategory(category);
+        }
+        else
+        {
+            // Creating new category
+            await CategoryService.AddCategory(category);
+        }
 
         NavigationManager.NavigateTo("/categories");
-
     }
+    catch (HttpRequestException ex)
+    {
+        // Handle API errors - show user message
+        Console.WriteLine($"Error saving category: {ex.Message}");
+        // You might want to show an error message to the user here
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Unexpected error: {ex.Message}");
+    }
+}
 }

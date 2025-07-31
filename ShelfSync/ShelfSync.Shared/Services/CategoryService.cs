@@ -39,11 +39,19 @@ public class CategoryService : ICategoryService
         var category = await _context.Categories.FindAsync(id);
         if (category == null)
         {
-            return false; 
+            return false;
         }
 
         _context.Categories.Remove(category);
         await _context.SaveChangesAsync();
-        return true; 
+        return true;
     }
+
+    public async Task<Category> UpdateCategory(Category category)
+    {
+        _context.Categories.Update(category);
+        await _context.SaveChangesAsync();
+        return category;
+    }
+
 }

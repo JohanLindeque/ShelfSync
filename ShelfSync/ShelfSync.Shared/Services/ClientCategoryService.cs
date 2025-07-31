@@ -29,7 +29,7 @@ public class ClientCategoryService : ICategoryService
 
     public async Task<Category> AddCategory(Category category)
     {
-        var result = await _httpClient.PostAsJsonAsync("api/category", category);
+        var result = await _httpClient.PostAsJsonAsync("api/category/add", category);
         result.EnsureSuccessStatusCode();
         return await result.Content.ReadFromJsonAsync<Category>() ?? category;
     }
@@ -48,7 +48,14 @@ public class ClientCategoryService : ICategoryService
         }
     }
 
-    
+    public async Task<Category> UpdateCategory(Category category)
+    {
+        var result = await _httpClient.PutAsJsonAsync($"api/category/{category.Id}", category);
+        result.EnsureSuccessStatusCode();
+        return await result.Content.ReadFromJsonAsync<Category>() ?? category;
+    }
 
-    
+
+
+
 }

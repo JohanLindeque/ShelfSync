@@ -70,7 +70,7 @@ namespace ShelfSync.Controllers
             }
         }
 
-         [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteCategoryById(int id)
         {
             try
@@ -81,6 +81,35 @@ namespace ShelfSync.Controllers
                     return NotFound($"Category with ID {id} not found");
                 }
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Category>> UpdateCategory(int id, Category category)
+        {
+            try
+            {
+                if (category == null)
+                {
+                    return BadRequest("Category cannot be null");
+                }
+
+                if (id != category.Id)
+                {
+                    return BadRequest("ID mismatch");
+                }
+
+                var updatedCategory = await _categoryService.UpdateCategory(category);
+                if (updatedCategory == null)
+                {
+                    return NotFound($"Category with ID {id} not found");
+                }
+
+                return Ok(updatedCategory);
             }
             catch (Exception ex)
             {
