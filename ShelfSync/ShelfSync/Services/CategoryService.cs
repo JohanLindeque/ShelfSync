@@ -4,7 +4,7 @@ using ShelfSync.Data;
 using ShelfSync.Shared.Entities;
 using ShelfSync.Shared.Services.Interfaces;
 
-namespace ShelfSync.Shared.Services;
+namespace ShelfSync.Services;
 
 public class CategoryService : ICategoryService
 {
