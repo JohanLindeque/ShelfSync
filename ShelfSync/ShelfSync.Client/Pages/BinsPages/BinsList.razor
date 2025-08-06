@@ -1,6 +1,13 @@
 ﻿@page "/bins"
+@* @using ShelfSync.Client.Componenets.BinsComponents *@
 
-<h3>BinsList</h3>
+@rendermode InteractiveAuto
+
+@inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
+
+<h2>BinsList</h2>
+
 <h2><ul class="list-inline">
     <li class="list-inline-item">Bin 1</li>
     <li class="list-inline-item">Bin 2</li>

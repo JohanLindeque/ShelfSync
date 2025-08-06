@@ -8,35 +8,35 @@
 @inject NavigationManager NavigationManager
 
 
-<h3>CategoriesList</h3>
+<h2>CategoriesList</h2>
 
 
 @if (categories == null)
 {
-    <span>Loading...</span>
+        <span>Loading...</span>
 }
 else if (categories.Count == 0)
 {
-    <span>No Categories Found.</span>
+        <span>No Categories Found.</span>
 }
 else
 {
-    <ul>
-        @foreach (var category in categories)
-        {
-            <div class="card" style="width: 18rem; ">
-                <div class="card-body">
-                    <h5 class="card-title">@category.Name</h5>
-                    <p class="card-text">@category.Description</p>
-                    <EditCategoryButton id="@category.Id" />
-                    <DeleteCategoryButton Id="@category.Id" OnCategoryDeleted="HandleCategoryDeleted" />
+        <ul>
+            @foreach (var category in categories)
+            {
+                <div class="card" style="width: 18rem; ">
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        <p class="card-text">@category.Description</p>
+                        <EditCategoryButton id="@category.Id" />
+                        <DeleteCategoryButton Id="@category.Id" OnCategoryDeleted="HandleCategoryDeleted" />
+                    </div>
                 </div>
-            </div>
-        }
-    </ul>
+            }
+        </ul>
 }
 
-<button @onclick="CreateCategory" class="btn btn-success">Create Category</button>
+    <button @onclick="CreateCategory" class="btn btn-success">Create Category</button>
 
 @code {
     List<Category>? categories = null;

@@ -16,4 +16,8 @@
     <ProjectReference Include="../ShelfSync.Shared/ShelfSync.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Componenets/BinsComponents/" />
+  </ItemGroup>
+
 </Project>
