@@ -1,0 +1,15 @@
+﻿@rendermode RenderMode.InteractiveAuto
+@inject NavigationManager NavigationManager
+
+
+<button @onclick="EditCategory" class="btn btn-primary">Edit</button>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    void EditCategory()
+    {
+        NavigationManager.NavigateTo($"/editcategory/{Id}");
+    }
+}

@@ -1,5 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using ShelfSync.Client.Pages;
 using ShelfSync.Components;
+using ShelfSync.Data;
+using ShelfSync.Services;
+using ShelfSync.Shared.Services;
+using ShelfSync.Shared.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +12,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddControllers();
+
+builder.Services.AddScoped(http => new HttpClient
+{
+    BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value),
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBinService, BinsService>();
+
+
+
+
 
 var app = builder.Build();
 
@@ -24,6 +46,7 @@ else
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
 
 app.UseAntiforgery();
 

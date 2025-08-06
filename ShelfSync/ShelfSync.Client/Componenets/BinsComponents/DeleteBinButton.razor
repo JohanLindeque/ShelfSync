@@ -1,0 +1,34 @@
+﻿@rendermode RenderMode.InteractiveAuto
+@inject NavigationManager NavigationManager
+@inject IBinService BinService
+
+
+<button @onclick="DeleteBin" class="btn btn-danger">Delete</button>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public EventCallback OnBinDeleted { get; set; }
+
+    async Task DeleteBin()
+    {
+        try
+        {
+            var success = await BinService.DeleteStorageBinById(Id);
+            if (success)
+            {
+                await OnBinDeleted.InvokeAsync();
+            }
+            else
+            {
+                Console.WriteLine("Failed to delete storage bin");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting storage bin: {ex.Message}");
+        }
+    }
+}
