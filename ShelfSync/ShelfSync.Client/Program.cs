@@ -10,5 +10,7 @@ builder.Services.AddScoped(http => new HttpClient
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
 });
 builder.Services.AddScoped<ICategoryService, ClientCategoryService>();
+builder.Services.AddScoped<IBinService, ClientBinsService>();
+
 
 await builder.Build().RunAsync();

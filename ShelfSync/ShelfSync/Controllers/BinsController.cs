@@ -75,7 +75,7 @@ namespace ShelfSync.Controllers
         {
             try
             {
-                var wasDeleted = await _binService.DeketeCategoryById(id);
+                var wasDeleted = await _binService.DeleteStorageBinById(id);
                 if (!wasDeleted)
                 {
                     return NotFound($"Storage Bin with ID {id} not found");

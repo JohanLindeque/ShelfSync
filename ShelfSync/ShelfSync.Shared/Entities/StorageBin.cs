@@ -16,7 +16,7 @@ public class StorageBin
     public Category Category { get; set; }
 
 
-    public required DateTime CratedAt { get; set; }
+    public required DateTime CreatedAt { get; set; }
     public required int CreatedBy { get; set; }
     [ForeignKey("CreatedBy")]
     public User CreatedByUser { get; set; }

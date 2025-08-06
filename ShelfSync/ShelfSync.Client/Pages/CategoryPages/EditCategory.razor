@@ -66,9 +66,7 @@ else
     }
     catch (HttpRequestException ex)
     {
-        // Handle API errors - show user message
         Console.WriteLine($"Error saving category: {ex.Message}");
-        // You might want to show an error message to the user here
     }
     catch (Exception ex)
     {

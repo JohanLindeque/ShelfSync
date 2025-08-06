@@ -1,0 +1,82 @@
+﻿@page "/editBin"
+@page "/editBin/{id:int}"
+
+@inject IBinService BinService
+@inject NavigationManager NavigationManager
+
+@rendermode InteractiveAuto
+
+@if (Id == null)
+{
+    <h3>Create Storage Bin</h3>
+}
+else
+{
+    <h3>Edit @storageBin.Name</h3>
+}
+
+<EditForm FormName="editstorageBin" Model="storageBin" OnSubmit="HandleSubmit">
+    <div>
+        <label>Name</label>
+        <InputText @bind-Value="storageBin.Name">@storageBin.Name</InputText>
+
+        <label>Description</label>
+        <InputText @bind-Value="storageBin.Description">@storageBin.Description</InputText>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    [SupplyParameterFromForm]
+    StorageBin storageBin { get; set; } = new StorageBin
+    {
+        Name = string.Empty,
+        Description = string.Empty,
+        CategoryID = 1,
+        CreatedAt = DateTime.UtcNow,
+        CreatedBy = 1,
+        Notes = " "
+    };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id.HasValue)
+        {
+            var existingStorageBin = await BinService.GetStorageBinById(Id.Value);
+            if (existingStorageBin != null)
+                storageBin = existingStorageBin;
+        }
+
+    }
+
+
+    async Task HandleSubmit()
+    {
+        try
+        {
+            if (Id.HasValue)
+            {
+                storageBin.Id = Id.Value;
+                await BinService.UpdateStorageBin(storageBin);
+            }
+            else
+            {
+                await BinService.AddStorageBin(storageBin);
+            }
+
+            NavigationManager.NavigateTo("/bins");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error saving storage Bin: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+        }
+    }
+}

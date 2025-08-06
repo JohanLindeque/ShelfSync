@@ -79,7 +79,7 @@ namespace ShelfSync.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CratedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedBy")
@@ -117,7 +117,7 @@ namespace ShelfSync.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CratedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")

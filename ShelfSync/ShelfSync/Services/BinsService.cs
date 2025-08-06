@@ -36,7 +36,7 @@ public class BinsService : IBinService
     }
 
 
-    public async Task<bool> DeketeCategoryById(int Id)
+    public async Task<bool> DeleteStorageBinById(int Id)
     {
         var storageBin = await _context.StorageBins.FindAsync(Id);
         if (storageBin == null)

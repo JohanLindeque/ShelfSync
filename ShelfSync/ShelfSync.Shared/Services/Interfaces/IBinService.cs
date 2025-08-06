@@ -7,7 +7,7 @@ public interface IBinService
 {
     Task<List<StorageBin>> GetAllStorageBins();
     Task<StorageBin> GetStorageBinById(int Id);
-    Task<bool> DeketeCategoryById(int Id);
+    Task<bool> DeleteStorageBinById(int Id);
     Task<StorageBin> AddStorageBin(StorageBin storageBin);
     Task<StorageBin> UpdateStorageBin(StorageBin storageBin);
 }

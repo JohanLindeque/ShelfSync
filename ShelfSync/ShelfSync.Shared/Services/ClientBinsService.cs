@@ -36,7 +36,7 @@ public class ClientBinsService : IBinService
 
     }
 
-    public async Task<bool> DeketeCategoryById(int Id)
+    public async Task<bool> DeleteStorageBinById(int Id)
     {
         try
         {

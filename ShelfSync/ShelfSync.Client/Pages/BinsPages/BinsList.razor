@@ -1,19 +1,66 @@
 ﻿@page "/bins"
-@* @using ShelfSync.Client.Componenets.BinsComponents *@
+@using ShelfSync.Client.Componenets.BinsComponents
 
 @rendermode InteractiveAuto
 
-@inject ICategoryService CategoryService
+@inject IBinService BinService
 @inject NavigationManager NavigationManager
 
-<h2>BinsList</h2>
+<h2>Bins List</h2>
 
-<h2><ul class="list-inline">
-    <li class="list-inline-item">Bin 1</li>
-    <li class="list-inline-item">Bin 2</li>
-    <li class="list-inline-item">Bin 3</li>
-</ul>
-</h2>
+@if (storageBins == null)
+{
+    <span>Loading...</span>
+}
+else if (storageBins.Count == 0)
+{
+    <span>No Storage Bins Found.</span>
+}
+else
+{
+    <ul>
+        @foreach (var bin in storageBins)
+        {
+            <div class="card" style="width: 18rem; padding: 2rem; margin: 1rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@bin.Name</h5>
+                    <p class="card-text">@bin.Description</p>
+                    <p class="card-text">@bin.Category</p>
+
+                    <EditBinButton id="@bin.Id" />
+                    <DeleteBinButton Id="@bin.Id" OnBinDeleted="HandleBinDeleted" />
+
+                </div>
+            </div>
+        }
+    </ul>
+}
+
+<button @onclick="CreateStorageBin" class="btn btn-success">Create Storage Bin</button>
+
 @code {
+    List<StorageBin>? storageBins = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStorageBins();
+    }
+
+    private async Task LoadStorageBins()
+    {
+        storageBins = await BinService.GetAllStorageBins();
+    }
+
+    private async Task HandleBinDeleted()
+    {
+        await LoadStorageBins();
+        StateHasChanged();
+    }
+
+    void CreateStorageBin()
+    {
+        NavigationManager.NavigateTo("/editBin");
+    }
+
 
 }
