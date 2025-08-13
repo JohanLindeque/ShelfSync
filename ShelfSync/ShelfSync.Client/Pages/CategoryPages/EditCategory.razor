@@ -6,26 +6,33 @@
 
 @rendermode InteractiveAuto
 
-@if (Id == null)
-{
-    <h3>Create Category</h3>
-}
-else
-{
-    <h3>Edit @category.Name</h3>
-}
+<div class="mb-4">
+    @if (Id == null)
+    {
+        <h3>Create Category</h3>
+    }
+    else
+    {
+        <h3>Edit @category.Name</h3>
+    }
+</div>
 
 <EditForm FormName="editCategory" Model="category" OnSubmit="HandleSubmit">
-    <div>
-        <label>Name</label>
-        <InputText @bind-Value="category.Name">@category.Name</InputText>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-        <label>Description</label>
-        <InputText @bind-Value="category.Description">@category.Description</InputText>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="category.Name" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <InputText id="description" class="form-control" @bind-Value="category.Description" />
+    </div>
 
+    <button type="submit" class="btn btn-primary">Save</button>
+    @* <button type="button" class="btn btn-secondary ms-2" @onclick="Cancel">Cancel</button> *@
 </EditForm>
 
 @code {
@@ -45,6 +52,10 @@ else
       
     }
 
+    @* private void Cancel()
+    {
+        NavigationManager.NavigateTo("/categories");
+    } *@
 
     async Task HandleSubmit()
 {
