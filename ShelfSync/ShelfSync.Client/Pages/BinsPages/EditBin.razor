@@ -16,16 +16,37 @@ else
 }
 
 <EditForm FormName="editstorageBin" Model="storageBin" OnSubmit="HandleSubmit">
-    <div>
-        <label>Name</label>
-        <InputText @bind-Value="storageBin.Name">@storageBin.Name</InputText>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText class="form-control" @bind-Value="storageBin.Name" />
+    </div>
 
-        <label>Description</label>
-        <InputText @bind-Value="storageBin.Description">@storageBin.Description</InputText>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <InputText class="form-control" @bind-Value="storageBin.Description" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Category ID</label>
+        <InputNumber class="form-control" @bind-Value="storageBin.CategoryID" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Created At</label>
+        <InputDate class="form-control" @bind-Value="storageBin.CreatedAt" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Created By</label>
+        <InputNumber class="form-control" @bind-Value="storageBin.CreatedBy" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Notes</label>
+        <InputTextArea class="form-control" @bind-Value="storageBin.Notes" />
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
-
 </EditForm>
 
 @code {
