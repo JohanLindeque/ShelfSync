@@ -56,6 +56,11 @@ namespace ShelfSync.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+
+                }
                 if (storageBin == null)
                 {
                     return BadRequest("Storage Bin cannot be null");

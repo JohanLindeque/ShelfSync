@@ -16,7 +16,9 @@ else
     <h3>Edit @storageBin.Name</h3>
 }
 
-<EditForm FormName="editstorageBin" Model="storageBin" OnSubmit="HandleSubmit">
+<EditForm FormName="editstorageBin" Model="storageBin"  OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <div class="mb-3">
         <label class="form-label">Name</label>
         <InputText class="form-control" @bind-Value="storageBin.Name" />
@@ -61,13 +63,15 @@ else
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
+
+
 @code {
     [Parameter]
     public int? Id { get; set; }
 
     private List<Category> categories = new();
 
-    [SupplyParameterFromForm]
+    [SupplyParameterFromForm(FormName="editstorageBin")]
     StorageBin storageBin { get; set; } = new StorageBin
     {
         Name = string.Empty,
@@ -75,7 +79,7 @@ else
         CategoryID = 1,
         CreatedAt = DateTime.UtcNow,
         CreatedBy = 1,
-        Notes = " "
+        Notes = string.Empty,
     };
 
     protected override async Task OnParametersSetAsync()
@@ -96,6 +100,7 @@ else
     {
         try
         {
+
             if (Id.HasValue)
             {
                 storageBin.Id = Id.Value;
