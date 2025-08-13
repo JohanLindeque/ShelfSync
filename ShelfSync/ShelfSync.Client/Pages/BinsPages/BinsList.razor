@@ -6,37 +6,70 @@
 @inject IBinService BinService
 @inject NavigationManager NavigationManager
 
-<h2>Bins List</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h2 class="mb-0">Storage Bins</h2>
+    <button @onclick="CreateStorageBin" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Add Bin
+    </button>
+</div>
 
 @if (storageBins == null)
 {
-    <span>Loading...</span>
+    <div class="text-muted fst-italic">Loading...</div>
 }
 else if (storageBins.Count == 0)
 {
-    <span>No Storage Bins Found.</span>
+    <div class="text-muted fst-italic">No Storage Bins Found.</div>
 }
 else
 {
-    <ul>
+    <div class="row g-4 mt-2">
         @foreach (var bin in storageBins)
         {
-            <div class="card" style="width: 18rem; padding: 2rem; margin: 1rem;">
-                <div class="card-body">
-                    <h5 class="card-title">@bin.Name</h5>
-                    <p class="card-text">@bin.Description</p>
-                    <p class="card-text">@bin.Category</p>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold">@bin.Name</h5>
 
-                    <EditBinButton id="@bin.Id" />
-                    <DeleteBinButton Id="@bin.Id" OnBinDeleted="HandleBinDeleted" />
+                        <div class="mb-3">
+                            <span class="text-muted small fw-bold">Category</span><br />
+                            <span class="badge bg-warning text-dark">@bin.Category?.Name</span>
+                        </div>
 
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold">Description</span><br />
+                            <span>@(string.IsNullOrWhiteSpace(bin.Description) ? "—" : bin.Description)</span>
+                        </div>
+
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold">Notes</span><br />
+                            <span>@(string.IsNullOrWhiteSpace(bin.Notes) ? "—" : bin.Notes)</span>
+                        </div>
+
+                        
+
+                        <div class="mb-2">
+                            <span class="text-muted small fw-bold">Created</span><br />
+                            <span>@bin.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                        </div>
+                        
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <EditBinButton id="@bin.Id" />
+                            <DeleteBinButton Id="@bin.Id" OnBinDeleted="HandleBinDeleted" />
+                        </div>
+                    </div>
                 </div>
             </div>
         }
-    </ul>
+    </div>
 }
 
-<button @onclick="CreateStorageBin" class="btn btn-success">Create Storage Bin</button>
+
+
+
+
 
 @code {
     List<StorageBin>? storageBins = null;

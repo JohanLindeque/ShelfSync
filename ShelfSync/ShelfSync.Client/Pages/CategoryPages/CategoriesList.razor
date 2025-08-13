@@ -8,35 +8,47 @@
 @inject NavigationManager NavigationManager
 
 
-<h2>CategoriesList</h2>
-
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h2 class="mb-0">Storage Categories</h2>
+    <button @onclick="CreateCategory" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Add Category
+    </button>
+</div>
 
 @if (categories == null)
 {
-        <span>Loading...</span>
+    <div class="text-muted fst-italic">Loading...</div>
 }
 else if (categories.Count == 0)
 {
-        <span>No Categories Found.</span>
+    <div class="text-muted fst-italic">No Categories Found.</div>
 }
 else
 {
-        <ul>
-            @foreach (var category in categories)
-            {
-                <div class="card" style="width: 18rem; padding: 2rem; margin: 1rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">@category.Name</h5>
-                        <p class="card-text">@category.Description</p>
-                        <EditCategoryButton id="@category.Id" />
-                        <DeleteCategoryButton Id="@category.Id" OnCategoryDeleted="HandleCategoryDeleted" />
+    <div class="row g-4 mt-2">
+        @foreach (var category in categories)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold">@category.Name</h5>
+
+                        <div class="mb-3">
+                            <span class="text-muted small fw-bold">Description</span><br />
+                            <span>@(string.IsNullOrWhiteSpace(category.Description) ? "—" : category.Description)</span>
+                        </div>
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <EditCategoryButton id="@category.Id" />
+                            <DeleteCategoryButton Id="@category.Id" OnCategoryDeleted="HandleCategoryDeleted" />
+                        </div>
                     </div>
                 </div>
-            }
-        </ul>
+            </div>
+        }
+    </div>
 }
 
-    <button @onclick="CreateCategory" class="btn btn-success">Create Category</button>
 
 @code {
     List<Category>? categories = null;
