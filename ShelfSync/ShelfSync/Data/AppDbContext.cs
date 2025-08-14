@@ -44,8 +44,21 @@ public class AppDbContext : IdentityDbContext
                 Description = "General storage category"
             }
         );
+        // Seed Identity user
+        var hasher = new PasswordHasher<IdentityUser>();
+        var adminUser = new IdentityUser
+        {
+            Id = "123e4567-e89b-12d3-a456-426614174000",
+            UserName = "admin@test.com",
+            NormalizedUserName = "ADMIN@TEST.COM",
+            Email = "admin@test.com",
+            NormalizedEmail = "ADMIN@TEST.COM",
+            EmailConfirmed = true,
+            SecurityStamp = Guid.NewGuid().ToString("D")
+        };
+        adminUser.PasswordHash = hasher.HashPassword(adminUser, "P@ssword123!");
+        modelBuilder.Entity<IdentityUser>().HasData(adminUser);
 
-    
 
 
     }
