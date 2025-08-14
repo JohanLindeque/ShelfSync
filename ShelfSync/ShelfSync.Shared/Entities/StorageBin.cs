@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShelfSync.Shared.Entities;
 
@@ -17,9 +18,11 @@ public class StorageBin
 
 
     public required DateTime CreatedAt { get; set; }
-    public required int CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
     [ForeignKey("CreatedBy")]
-    public User CreatedByUser { get; set; }
+    public IdentityUser CreatedByUser { get; set; }
+
+
 
     public DateTime ModifiedAt { get; set; }
 

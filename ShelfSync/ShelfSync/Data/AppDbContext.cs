@@ -15,24 +15,26 @@ public class AppDbContext : IdentityDbContext
     }
 
     // dbsets = tables in db
-    public DbSet<User> Users { get; set; }
+    // public DbSet<User> Users { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<StorageBin> StorageBins { get; set; }
     public DbSet<Item> BinItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         // Seed dummy data
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                Name = "Admin User",
-                Surname = "Tester",
-                Email = "admin@example.com",
-                CreatedAt = DateTime.UtcNow
-            }
-        );
+        // modelBuilder.Entity<User>().HasData(
+        //     new User
+        //     {
+        //         Id = 1,
+        //         Name = "Admin User",
+        //         Surname = "Tester",
+        //         Email = "admin@example.com",
+        //         CreatedAt = DateTime.UtcNow
+        //     }
+        // );
 
         modelBuilder.Entity<Category>().HasData(
             new Category
@@ -43,7 +45,9 @@ public class AppDbContext : IdentityDbContext
             }
         );
 
-        base.OnModelCreating(modelBuilder);
+    
+
+
     }
 
 }
