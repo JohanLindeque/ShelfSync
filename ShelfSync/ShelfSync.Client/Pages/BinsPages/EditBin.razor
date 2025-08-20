@@ -1,5 +1,7 @@
 ﻿@page "/editBin"
 @page "/editBin/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 @inject IBinService BinService
 @inject ICategoryService CategoryService
