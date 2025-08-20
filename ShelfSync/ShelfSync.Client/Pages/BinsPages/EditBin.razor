@@ -92,8 +92,6 @@ else
         currentUserId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
 
         categories = await CategoryService.GetAllCategories();
-        @* TEST *@
-        currentUserId = "123e4567-e89b-12d3-a456-426614174000";
 
 
         if (Id.HasValue)
