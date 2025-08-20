@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShelfSync.Client.Pages;
 using ShelfSync.Components;
@@ -15,20 +18,28 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
+// DB CONTEXT
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+// add IDENTITY 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedAccount = false;
+}).AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddRazorPages();
+
+// SCOPE
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBinService, BinsService>();
+builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddScoped(http => new HttpClient
 {
     BaseAddress = new Uri(builder.Configuration.GetSection("BaseUri").Value),
 });
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
-
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IBinService, BinsService>();
-
-
-
-
 
 var app = builder.Build();
 
@@ -40,16 +51,21 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-app.MapControllers();
+
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAntiforgery();
 
+// ENDPOINTS
+app.MapControllers();
+app.MapRazorPages(); 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

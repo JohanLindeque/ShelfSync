@@ -1,6 +1,7 @@
 ﻿@page "/editcategory"
 @page "/editcategory/{id:int}"
-
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 

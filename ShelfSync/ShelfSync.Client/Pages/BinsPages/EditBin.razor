@@ -1,9 +1,13 @@
 ﻿@page "/editBin"
 @page "/editBin/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 @inject IBinService BinService
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
 
 @rendermode InteractiveAuto
 
@@ -16,7 +20,7 @@ else
     <h3>Edit @storageBin.Name</h3>
 }
 
-<EditForm FormName="editstorageBin" Model="storageBin"  OnValidSubmit="HandleSubmit">
+<EditForm FormName="editstorageBin" Model="storageBin" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="mb-3">
@@ -33,8 +37,8 @@ else
         <label class="form-label">Category ID</label>
         <InputNumber class="form-control" @bind-Value="storageBin.CategoryID" />
     </div> *@
-    
-     <div class="mb-3">
+
+    <div class="mb-3">
         <label class="form-label">Category</label>
         <InputSelect class="form-select" @bind-Value="storageBin.CategoryID">
             <option value="">-- Select Category --</option>
@@ -52,7 +56,7 @@ else
 
     <div class="mb-3">
         <label class="form-label">Created By</label>
-        <InputNumber class="form-control" @bind-Value="storageBin.CreatedBy" />
+        <InputText class="form-control" @bind-Value="storageBin.CreatedBy" />
     </div>
 
     <div class="mb-3">
@@ -70,21 +74,27 @@ else
     public int? Id { get; set; }
 
     private List<Category> categories = new();
+    private string currentUserId = string.Empty;
 
-    [SupplyParameterFromForm(FormName="editstorageBin")]
+
+    @* [SupplyParameterFromForm(FormName = "editstorageBin")] *@
     StorageBin storageBin { get; set; } = new StorageBin
     {
         Name = string.Empty,
         Description = string.Empty,
         CategoryID = 1,
         CreatedAt = DateTime.UtcNow,
-        CreatedBy = 1,
+        CreatedBy = string.Empty,
         Notes = string.Empty,
     };
 
     protected override async Task OnParametersSetAsync()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        currentUserId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
+
         categories = await CategoryService.GetAllCategories();
+
 
         if (Id.HasValue)
         {
@@ -92,7 +102,11 @@ else
             if (existingStorageBin != null)
                 storageBin = existingStorageBin;
         }
-
+        else
+        {
+            // Set CreatedBy for new bins
+            storageBin.CreatedBy = currentUserId;
+        }
     }
 
 
