@@ -75,6 +75,8 @@ else
 
     private List<Category> categories = new();
     private string currentUserId = string.Empty;
+    private bool isSubmitting = false;
+    private bool _disposed = false;
 
 
     @* [SupplyParameterFromForm(FormName = "editstorageBin")] *@
@@ -125,7 +127,8 @@ else
                 await BinService.AddStorageBin(storageBin);
             }
 
-            NavigationManager.NavigateTo("/bins");
+            @* NavigationManager.NavigateTo("/bins"); *@
+            await InvokeAsync(() => NavigationManager.NavigateTo("/bins"));
         }
         catch (HttpRequestException ex)
         {
@@ -135,5 +138,56 @@ else
         {
             Console.WriteLine($"Unexpected error: {ex.Message}");
         }
+    }
+
+    @* async Task HandleSubmit()
+    {
+        if (isSubmitting || _disposed) return;
+        
+        isSubmitting = true;
+        StateHasChanged(); // Update UI to show loading state
+
+        try
+        {
+            if (Id.HasValue)
+            {
+                storageBin.Id = Id.Value;
+                storageBin.ModifiedAt = DateTime.UtcNow; // Set modification time
+                await BinService.UpdateStorageBin(storageBin);
+            }
+            else
+            {
+                await BinService.AddStorageBin(storageBin);
+            }
+
+            // Use InvokeAsync to ensure we're on the correct thread
+            if (!_disposed)
+            {
+                await InvokeAsync(() => NavigationManager.NavigateTo("/bins"));
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error saving storage Bin: {ex.Message}");
+            // Optionally show user-friendly error message
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+            // Optionally show user-friendly error message
+        }
+        finally
+        {
+            if (!_disposed)
+            {
+                isSubmitting = false;
+                StateHasChanged();
+            }
+        }
+    } *@
+
+    public void Dispose()
+    {
+        _disposed = true;
     }
 }
