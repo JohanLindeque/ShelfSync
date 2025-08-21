@@ -165,7 +165,6 @@ else
                 await BinService.AddStorageBin(storageBin);
             }
 
-            @* NavigationManager.NavigateTo("/bins"); *@
             await InvokeAsync(() => NavigationManager.NavigateTo("/bins"));
         }
         catch (HttpRequestException ex)

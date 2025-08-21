@@ -110,16 +110,17 @@ else
                                                     <strong>@(line.Name ?? "Unknown Item")</strong>
                                                 </td>
                                                 <td>@(line.Description ?? "")</td>
+                                                <td>@line.Quantity </td>
                                                 <td>
-                                                    <span class="badge bg-primary">@line.Quantity</span>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary me-1">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
+                                                    <EditBinItemButton Id="@line.Id" />
+
+                                                    @* <button class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </button> *@
                                                     <button class="btn btn-sm btn-outline-danger">
-                                                        <i class="fas fa-trash"></i>
+                                                        <i class="fas fa-trash"></i> Delete
                                                     </button>
+
                                                 </td>
                                             </tr>
                                         }
@@ -150,11 +151,6 @@ else
     private StorageBin? storageBin;
     private List<BinItem> BinItems = new();
 
-
-    private bool isSubmitting = false;
-
-
-    private BinItem? lineToDelete;
     private string currentUserId = string.Empty;
 
     protected override async Task OnInitializedAsync()

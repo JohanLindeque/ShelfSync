@@ -4,15 +4,11 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 
-@* @inject IBinService BinService *@
 @inject IBinItemService BinItemService
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @rendermode InteractiveAuto
-
-
-<h3>Add Bin Item to bin: @binId</h3>
 
 
 @if (binId == null)
