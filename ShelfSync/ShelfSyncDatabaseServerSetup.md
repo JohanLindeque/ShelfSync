@@ -156,5 +156,5 @@ docker compose up -d
 
 The database will persist between restarts thanks to the postgres-data volume.
 
-Run Shelf sync app by 
+
 
