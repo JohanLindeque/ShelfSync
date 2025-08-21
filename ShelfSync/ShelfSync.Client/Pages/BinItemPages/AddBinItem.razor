@@ -1,0 +1,109 @@
+﻿@page "/addBinItem/{binId:int}"
+
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+@inject IBinItemService BinItemService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@rendermode InteractiveAuto
+
+
+@if (binId == null)
+{
+    <h3>Cannot create a item without a Bin Id. </h3>
+}
+else
+{
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2>Create new Bin Item</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/bins">Storage Bins</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <a href="/viewBin/@binId" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to bin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <EditForm FormName="editBinItem" Model="newBinItem" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="newBinItem.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <InputTextArea class="form-control" @bind-Value="newBinItem.Description" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Quantity</label>
+                <InputNumber class="form-control" @bind-Value="newBinItem.Quantity" />
+            </div>
+        </div>
+
+
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </EditForm>
+}
+
+
+
+@code {
+    [Parameter]
+    public int? binId { get; set; }
+
+
+    BinItem newBinItem { get; set; } = new BinItem
+    {
+        Name = string.Empty,
+        Description = string.Empty,
+        Quantity = 0,
+        StorageBinId = 0
+    };
+
+    async Task HandleSubmit()
+    {
+        try
+        {
+            if (binId.HasValue)
+            {
+                newBinItem.StorageBinId = binId.Value;
+                await BinItemService.AddBinItem(newBinItem);
+
+                StateHasChanged();
+                await InvokeAsync(() => NavigationManager.NavigateTo($"/viewBin/{binId}"));
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error saving storage Bin: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+        }
+    }
+
+
+
+}

@@ -1,0 +1,16 @@
+﻿@rendermode RenderMode.InteractiveAuto
+@inject NavigationManager NavigationManager
+
+
+ <button @onclick="AddNewBinItem" class="btn btn-success"> <i class="fas fa-plus"></i> Add Item</button>
+
+
+@code {
+    [Parameter]
+    public int binId {get;set;}
+
+    void AddNewBinItem(){
+        NavigationManager.NavigateTo($"/addBinItem/{binId}");
+    }
+
+}

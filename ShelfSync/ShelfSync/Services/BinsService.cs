@@ -20,6 +20,12 @@ public class BinsService : IBinService
         return storageBins;
     }
 
+    public async Task<StorageBin> GetStorageBinById(int Id)
+    {
+        return await _context.StorageBins.FindAsync(Id);
+
+    }
+
     public async Task<StorageBin> AddStorageBin(StorageBin storageBin)
     {
         _context.StorageBins.Add(storageBin);
@@ -28,13 +34,6 @@ public class BinsService : IBinService
         return storageBin;
 
     }
-
-    public async Task<StorageBin> GetStorageBinById(int Id)
-    {
-        return await _context.StorageBins.FindAsync(Id);
-
-    }
-
 
     public async Task<bool> DeleteStorageBinById(int Id)
     {
@@ -49,8 +48,6 @@ public class BinsService : IBinService
         return true;
 
     }
-
-
 
     public async Task<StorageBin> UpdateStorageBin(StorageBin storageBin)
     {

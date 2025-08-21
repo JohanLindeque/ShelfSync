@@ -35,6 +35,7 @@ builder.Services.AddRazorPages();
 // SCOPE
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBinService, BinsService>();
+builder.Services.AddScoped<IBinItemService, BinItemsService>();
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddScoped(http => new HttpClient
 {

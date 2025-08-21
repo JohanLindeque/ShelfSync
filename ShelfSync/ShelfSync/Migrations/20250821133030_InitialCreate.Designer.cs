@@ -12,7 +12,7 @@ using ShelfSync.Data;
 namespace ShelfSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250821075035_InitialCreate")]
+    [Migration("20250821133030_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -225,6 +225,34 @@ namespace ShelfSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShelfSync.Shared.Entities.BinItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StorageBinId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StorageBinId");
+
+                    b.ToTable("BinItems");
+                });
+
             modelBuilder.Entity("ShelfSync.Shared.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -234,7 +262,6 @@ namespace ShelfSync.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -254,31 +281,6 @@ namespace ShelfSync.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ShelfSync.Shared.Entities.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StorageBinId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StorageBinId");
-
-                    b.ToTable("BinItems");
-                });
-
             modelBuilder.Entity("ShelfSync.Shared.Entities.StorageBin", b =>
                 {
                     b.Property<int>("Id")
@@ -293,12 +295,11 @@ namespace ShelfSync.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatedBy")
+                    b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedAt")
@@ -309,14 +310,13 @@ namespace ShelfSync.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryID");
 
-                    b.HasIndex("CreatedBy");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("StorageBins");
                 });
@@ -372,10 +372,10 @@ namespace ShelfSync.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ShelfSync.Shared.Entities.Item", b =>
+            modelBuilder.Entity("ShelfSync.Shared.Entities.BinItem", b =>
                 {
                     b.HasOne("ShelfSync.Shared.Entities.StorageBin", "StorageBin")
-                        .WithMany()
+                        .WithMany("BinItems")
                         .HasForeignKey("StorageBinId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -386,20 +386,30 @@ namespace ShelfSync.Migrations
             modelBuilder.Entity("ShelfSync.Shared.Entities.StorageBin", b =>
                 {
                     b.HasOne("ShelfSync.Shared.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("StorageBins")
                         .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedByUser")
                         .WithMany()
-                        .HasForeignKey("CreatedBy")
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
                     b.Navigation("CreatedByUser");
+                });
+
+            modelBuilder.Entity("ShelfSync.Shared.Entities.Category", b =>
+                {
+                    b.Navigation("StorageBins");
+                });
+
+            modelBuilder.Entity("ShelfSync.Shared.Entities.StorageBin", b =>
+                {
+                    b.Navigation("BinItems");
                 });
 #pragma warning restore 612, 618
         }

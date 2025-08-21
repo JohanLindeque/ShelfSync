@@ -1,0 +1,28 @@
+﻿@rendermode RenderMode.InteractiveAuto
+@inject NavigationManager NavigationManager
+@inject IBinService BinService
+
+
+
+
+
+<Button @onclick="ShowBinDetails" class="btn btn-outline-primary" >View</Button>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+
+    private async Task ShowBinDetails()
+    {
+
+        try
+        {
+            NavigationManager.NavigateTo($"/viewBin/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting storage bin: {ex.Message}");
+        }
+    }
+}
