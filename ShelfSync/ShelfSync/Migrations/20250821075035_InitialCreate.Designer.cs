@@ -12,8 +12,8 @@ using ShelfSync.Data;
 namespace ShelfSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250814103845_InitialCreateDB")]
-    partial class InitialCreateDB
+    [Migration("20250821075035_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
