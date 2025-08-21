@@ -1,0 +1,194 @@
+﻿@page "/viewBin/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using ShelfSync.Client.Componenets.BinsComponents
+
+@attribute [Authorize]
+
+@inject IBinService BinService
+@inject IBinItemService BinItemService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@rendermode InteractiveAuto
+
+@if (storageBin == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <!-- Bin Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2>@storageBin.Name</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/bins">Storage Bins</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@storageBin.Name</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div>
+                        <EditBinButton id="@Id" />
+                        <DeleteBinButton Id="@Id" OnBinDeleted="HandleBinDeleted" />
+                        @* <a href="/editBin/@Id" class="btn btn-primary me-2">
+                            <i class="fas fa-edit"></i> Edit Bin
+                        </a> *@
+                        <a href="/bins" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Back to Bins
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bin Information Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Bin Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Description:</strong> @storageBin.Description</p>
+                                <p><strong>Category:</strong> @(storageBin.Category?.Name ?? "N/A")</p>
+                                <p><strong>Created:</strong> @storageBin.CreatedAt.ToString("MM/dd/yyyy")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Created By:</strong> @storageBin.CreatedById</p>
+                                <p><strong>Total Items:</strong> @BinItems.Count</p>
+                                @if (!string.IsNullOrEmpty(storageBin.Notes))
+                                {
+                                    <p><strong>Notes:</strong> @storageBin.Notes</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bin Lines Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Items in Bin</h5>
+                        <button class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        @if (BinItems.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Description</th>
+                                            <th>Quantity</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var line in BinItems.OrderByDescending(x => x.Id))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <strong>@(line.Name ?? "Unknown Item")</strong>
+                                                </td>
+                                                <td>@(line.Description ?? "")</td>
+                                                <td>
+                                                    <span class="badge bg-primary">@line.Quantity</span>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">No items in this bin</h5>
+                                <p class="text-muted">Click "Add Item" to start adding items to this storage bin.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private StorageBin? storageBin;
+    private List<BinItem> BinItems = new();
+
+
+    private bool isSubmitting = false;
+
+
+    private BinItem? lineToDelete;
+    private string currentUserId = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        currentUserId = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
+
+        await LoadBinData();
+    }
+
+    private async Task LoadBinData()
+    {
+        try
+        {
+            storageBin = await BinService.GetStorageBinById(Id);
+            if (storageBin != null)
+            {
+                BinItems = await BinItemService.GetAllBinItems(Id);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/bins");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading bin data: {ex.Message}");
+        }
+    }
+
+
+    private async Task HandleBinDeleted()
+    {
+        StateHasChanged();
+        await InvokeAsync(() => NavigationManager.NavigateTo("/bins"));
+
+    }
+
+}

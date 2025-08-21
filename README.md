@@ -43,4 +43,5 @@
 
 ## 📖 Documentation
 
-- [Database & Server Setup Guide](ShelfSync/ShelfSyncDatabaseServerSetup.md)
+- [Database & Server Setup Guide](Documentation/ShelfSyncDatabaseServerSetup.md)
+

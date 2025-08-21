@@ -13,56 +13,102 @@
 
 @if (Id == null)
 {
-    <h3>Create Storage Bin</h3>
+   <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2>Create new bin</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/bins">Storage Bins</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div>
+                        <a href="/bins" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Bins
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 }
 else
 {
-    <h3>Edit @storageBin.Name</h3>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2>Edit @storageBin.Name</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/bins">Storage Bins</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@storageBin.Name</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div>
+                        <a href="/bins" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Bins
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 }
 
 <EditForm FormName="editstorageBin" Model="storageBin" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        <InputText class="form-control" @bind-Value="storageBin.Name" />
-    </div>
+    <div id="Bin-Header">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <InputText class="form-control" @bind-Value="storageBin.Name" />
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Description</label>
-        <InputText class="form-control" @bind-Value="storageBin.Description" />
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <InputText class="form-control" @bind-Value="storageBin.Description" />
+        </div>
 
-    @* <div class="mb-3">
+        @* <div class="mb-3">
         <label class="form-label">Category ID</label>
         <InputNumber class="form-control" @bind-Value="storageBin.CategoryID" />
     </div> *@
 
-    <div class="mb-3">
-        <label class="form-label">Category</label>
-        <InputSelect class="form-select" @bind-Value="storageBin.CategoryID">
-            <option value="">-- Select Category --</option>
-            @foreach (var category in categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </InputSelect>
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <InputSelect class="form-select" @bind-Value="storageBin.CategoryID">
+                <option value="">-- Select Category --</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Created At</label>
+            <InputDate class="form-control" @bind-Value="storageBin.CreatedAt" />
+        </div>
+
+        @* <div class="mb-3">
+            <label class="form-label">Created By</label>
+            <InputText class="form-control" @bind-Value="storageBin.CreatedById" />
+        </div> *@
+
+        <div class="mb-3">
+            <label class="form-label">Notes</label>
+            <InputTextArea class="form-control" @bind-Value="storageBin.Notes" />
+        </div>
+    </div>
+    <br>
+
+    <div id="BinLines">
+
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Created At</label>
-        <InputDate class="form-control" @bind-Value="storageBin.CreatedAt" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Created By</label>
-        <InputText class="form-control" @bind-Value="storageBin.CreatedBy" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Notes</label>
-        <InputTextArea class="form-control" @bind-Value="storageBin.Notes" />
-    </div>
+    <br>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
@@ -86,7 +132,7 @@ else
         Description = string.Empty,
         CategoryID = 1,
         CreatedAt = DateTime.UtcNow,
-        CreatedBy = string.Empty,
+        CreatedById = string.Empty,
         Notes = string.Empty,
     };
 
@@ -107,7 +153,7 @@ else
         else
         {
             // Set CreatedBy for new bins
-            storageBin.CreatedBy = currentUserId;
+            storageBin.CreatedById = currentUserId;
         }
     }
 
@@ -140,51 +186,7 @@ else
         }
     }
 
-    @* async Task HandleSubmit()
-    {
-        if (isSubmitting || _disposed) return;
-        
-        isSubmitting = true;
-        StateHasChanged(); // Update UI to show loading state
 
-        try
-        {
-            if (Id.HasValue)
-            {
-                storageBin.Id = Id.Value;
-                storageBin.ModifiedAt = DateTime.UtcNow; // Set modification time
-                await BinService.UpdateStorageBin(storageBin);
-            }
-            else
-            {
-                await BinService.AddStorageBin(storageBin);
-            }
-
-            // Use InvokeAsync to ensure we're on the correct thread
-            if (!_disposed)
-            {
-                await InvokeAsync(() => NavigationManager.NavigateTo("/bins"));
-            }
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"Error saving storage Bin: {ex.Message}");
-            // Optionally show user-friendly error message
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Unexpected error: {ex.Message}");
-            // Optionally show user-friendly error message
-        }
-        finally
-        {
-            if (!_disposed)
-            {
-                isSubmitting = false;
-                StateHasChanged();
-            }
-        }
-    } *@
 
     public void Dispose()
     {

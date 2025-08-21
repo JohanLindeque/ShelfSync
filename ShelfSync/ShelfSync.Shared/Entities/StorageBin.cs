@@ -8,8 +8,8 @@ public class StorageBin
 {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public string Description { get; set; }
-    public string Notes { get; set; }
+    public string? Description { get; set; }
+    public string? Notes { get; set; }
 
 
     public required int CategoryID { get; set; }
@@ -18,13 +18,14 @@ public class StorageBin
 
 
     public required DateTime CreatedAt { get; set; }
-    public string CreatedBy { get; set; }
-    [ForeignKey("CreatedBy")]
+
+    public string CreatedById { get; set; }
+    [ForeignKey("CreatedById")]
     public IdentityUser CreatedByUser { get; set; }
 
 
 
     public DateTime ModifiedAt { get; set; }
 
-
+    public List<BinItem> BinItems { get; set; } = new();
 }
