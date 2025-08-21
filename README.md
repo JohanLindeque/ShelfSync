@@ -12,15 +12,15 @@
 
 - 📦 **Storage Bin Management**
   - Create, view, update, and delete bins
-  - Each bin can contain multiple items with tracked quantities
+  - Each bin can contain multiple items 
 
 - 📝 **Item Management**
   - CRUD for items per bin
   - Quantity tracking
 
 - 📇 **Barcode System**
-  - Automatically generate barcodes for bins
-  - Scan barcodes using a phone camera to view bin contents
+  - Generate and print barcodes for bins
+  - Scan barcodes using a phone camera to view bin contents ( to be implemented)
 
 - ✅ **Checklists**
   - View online or printable checklists for bin contents
