@@ -1,6 +1,6 @@
 # ShelfSync – Blazor Web Inventory Manager
 
-**ShelfSync** is a Blazor Web  application built with .NET 9. It helps you organize and manage storage bins and their items, complete with barcode integration and secure user access. The app is designed to run locally (e.g., on a Raspberry Pi) and be accessed over your home network—or even globally if you choose to expose it online.
+**ShelfSync** is a Blazor Web  application built with .NET 9. It helps you organize and manage storage bins and their items, complete with barcode integration and secure user access. The app is designed to run locally (e.g., on a Raspberry Pi) and be accessed over your home network—or even globally if you choose to expose it online. 
 
 ---
 
@@ -31,7 +31,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Blazor Web App (.NET 9)
+- **Frontend**: Blazor Web App (.NET 9) [hybrid (Interactive Server + Interactive WASM)]
 - **Backend**: ASP.NET Core Web API
 - **Database**: PostgreSQL
 - **ORM**: Entity Framework Core
