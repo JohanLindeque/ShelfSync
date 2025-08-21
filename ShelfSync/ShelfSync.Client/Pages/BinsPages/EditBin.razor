@@ -102,11 +102,6 @@ else
             <InputTextArea class="form-control" @bind-Value="storageBin.Notes" />
         </div>
     </div>
-    <br>
-
-    <div id="BinLines">
-
-    </div>
 
     <br>
 
@@ -122,10 +117,7 @@ else
     private List<Category> categories = new();
     private string currentUserId = string.Empty;
     private bool isSubmitting = false;
-    private bool _disposed = false;
 
-
-    @* [SupplyParameterFromForm(FormName = "editstorageBin")] *@
     StorageBin storageBin { get; set; } = new StorageBin
     {
         Name = string.Empty,
@@ -188,8 +180,5 @@ else
 
 
 
-    public void Dispose()
-    {
-        _disposed = true;
-    }
+  
 }
