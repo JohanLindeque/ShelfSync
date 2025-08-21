@@ -6,6 +6,7 @@ using ShelfSync.Shared.Services.Interfaces;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+builder.Services.AddAuthorizationCore(); 
 
 builder.Services.AddScoped(http => new HttpClient
 {
