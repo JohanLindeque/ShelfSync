@@ -3,6 +3,13 @@
 **ShelfSync** is a full-stack inventory management web application built with Blazor and .NET 9 for organizing storage bins and items. Features custom barcode scanning integration (in development), ASP.NET Core Identity authentication, and a PostgreSQL database managed through Entity Framework Core with code-first migrations. The database is containerized with Docker for easy deployment on local networks.
 
 ---
+## 🖥️ Screenshots
+<img width="1888" height="782" alt="image" src="https://github.com/user-attachments/assets/c6de822b-54c3-432c-b5ae-2606373aaba9" />
+<img width="1880" height="807" alt="image" src="https://github.com/user-attachments/assets/bfee5926-fafc-45bd-87d6-3bdddc78ad2e" />
+<img width="1536" height="668" alt="image" src="https://github.com/user-attachments/assets/2bdaa7a4-a69f-4cb4-8d74-0ddd71558231" />
+<img width="1343" height="527" alt="image" src="https://github.com/user-attachments/assets/fd305956-2c85-4d72-85ca-d4ef3709a45b" />
+
+
 
 ## 🚀 Features
 
